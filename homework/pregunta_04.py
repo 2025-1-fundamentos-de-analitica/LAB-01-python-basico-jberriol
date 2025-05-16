@@ -6,6 +6,9 @@ utilizar pandas, numpy o scipy.
 """
 
 
+import csv
+
+
 def pregunta_04():
     """
     La columna 3 contiene una fecha en formato `YYYY-MM-DD`. Retorne la
@@ -26,3 +29,17 @@ def pregunta_04():
      ('12', 3)]
 
     """
+
+    fechas = {}
+    with open("files/input/data.csv", mode="r", encoding="utf-8") as archivo_csv:
+        lector_csv = csv.reader(archivo_csv, delimiter="\t")
+
+        for fila in lector_csv:
+            date = fila[2].split("-")
+            if fechas.get(date[1]) != None:
+                fechas[date[1]] += 1
+            else:
+                fechas[date[1]] = 1
+
+    sortedFechas = dict(sorted(fechas.items()))
+    return list(sortedFechas.items())

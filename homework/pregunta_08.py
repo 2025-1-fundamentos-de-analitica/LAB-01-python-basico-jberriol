@@ -6,6 +6,9 @@ utilizar pandas, numpy o scipy.
 """
 
 
+import csv
+
+
 def pregunta_08():
     """
     Genere una lista de tuplas, donde el primer elemento de cada tupla
@@ -27,3 +30,17 @@ def pregunta_08():
      (9, ['A', 'B', 'C', 'E'])]
 
     """
+
+    diccionario = {}
+    with open("files/input/data.csv", mode="r", encoding="utf-8") as archivo_csv:
+        lector_csv = csv.reader(archivo_csv, delimiter="\t")
+        for fila in lector_csv:
+            if diccionario.get(int(fila[1])) == None:
+                diccionario[int(fila[1])] = [fila[0]]
+            else:
+                if fila[0] in diccionario.get(int(fila[1])):
+                    continue
+                else:
+                    diccionario.get(int(fila[1])).append(fila[0])
+
+    return sorted([(clave, sorted(valor)) for clave, valor in diccionario.items()])

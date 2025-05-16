@@ -6,6 +6,9 @@ utilizar pandas, numpy o scipy.
 """
 
 
+import csv
+
+
 def pregunta_06():
     """
     La columna 5 codifica un diccionario donde cada cadena de tres letras
@@ -26,3 +29,26 @@ def pregunta_06():
      ('jjj', 5, 17)]
 
     """
+
+    cadena = {}
+
+    with open("files/input/data.csv", mode="r", encoding="utf-8") as archivo_csv:
+        lector_csv = csv.reader(archivo_csv, delimiter="\t")
+
+        for fila in lector_csv:
+            listaValores = fila[4].split(",")
+            for valor in listaValores:
+                claveValor = valor.split(":")
+                if cadena.get(claveValor[0]) == None:
+                    cadena[claveValor[0]] = [int(claveValor[1]), int(claveValor[1])]
+                else:
+                    if int(claveValor[1]) > cadena.get(claveValor[0])[1]:
+                        (cadena.get(claveValor[0])[1]) = int(claveValor[1])
+                    if int(claveValor[1]) < cadena.get(claveValor[0])[0]:
+                        (cadena.get(claveValor[0])[0]) = int(claveValor[1])
+
+    return sorted([(clave, valor[0], valor[1]) for clave, valor in cadena.items()])
+
+
+if "__main__" in __name__:
+    print(pregunta_06())
